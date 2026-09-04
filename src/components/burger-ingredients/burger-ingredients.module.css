@@ -13,3 +13,14 @@
   text-align: center;
   list-style-type: none;
 }
+
+.ingredientsLists {
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+.ingredientsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
