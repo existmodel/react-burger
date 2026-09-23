@@ -39,7 +39,7 @@ export const IngredientDetails = ({
           </li>
 
           <li
-            className={`${styles.ingredientItem}text text_type_main-default text_color_inactive mr-5 `}
+            className={`${styles.ingredientItem} text text_type_main-default text_color_inactive mr-5 `}
           >
             <span>Углеводы, г</span>
             <span className="text text_type_digits-default">
