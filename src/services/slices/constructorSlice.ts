@@ -43,10 +43,15 @@ export const constructorSlice = createSlice({
       const draggedItem = state.fillings.splice(dragIndex, 1)[0];
       state.fillings.splice(hoverIndex, 0, draggedItem);
     },
+
+    clearConstructor: (state) => {
+      state.bun = null;
+      state.fillings = [];
+    },
   },
 });
 
-export const { addIngredient, removeIngredient, moveIngredient } =
+export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } =
   constructorSlice.actions;
 
 const selectConstructorState = (state: RootState, _?: TIngredient): TConstructorState =>

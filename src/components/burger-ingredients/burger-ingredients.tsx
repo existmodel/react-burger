@@ -1,7 +1,7 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
+import { useAppDispatch } from '@services/hooks';
 import { ingredientSelected } from '@services/slices/ingredientsSlice';
 
 import { IngredientCard } from './../ingredients-card/ingredients-card';
@@ -17,7 +17,7 @@ type TBurgerIngredientsProps = {
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState('bun');
 
   const buns = ingredients.filter((item) => item.type === 'bun');

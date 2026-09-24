@@ -4,25 +4,28 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { BurgerConstructorItem } from '@components/burger-constructor-item/burger-constructor-item';
-import { addIngredient, selectTotalPrice } from '@services/slices/constructorSlice';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
+import {
+  addIngredient,
+  selectTotalPrice,
+  clearConstructor,
+} from '@services/slices/constructorSlice';
 import { openOrderModal, setOrderNumber } from '@services/slices/ingredientsSlice';
 import { usePostOrderMutation } from '@utils/api';
 
-import type { RootState } from '../../services/store';
 import type { TConstructorIngredient, TIngredient } from '../../utils/types';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [postOrder] = usePostOrderMutation();
 
-  const summary = useSelector(selectTotalPrice);
+  const summary = useAppSelector(selectTotalPrice);
 
-  const { bun, fillings } = useSelector((state: RootState) => state.burgerConstructor);
+  const { bun, fillings } = useAppSelector((state) => state.burgerConstructor);
 
   const handleOrderClick = async (): Promise<void> => {
     if (!bun) return;
@@ -37,6 +40,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
       dispatch(setOrderNumber(response.order.number));
       dispatch(openOrderModal());
+      dispatch(clearConstructor());
     } catch (error) {
       console.log('Ошибка при создании заказа', error);
     }

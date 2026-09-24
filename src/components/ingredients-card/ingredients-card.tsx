@@ -1,10 +1,9 @@
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 
+import { useAppSelector } from '@services/hooks';
 import { selectIngredientCount } from '@services/slices/constructorSlice';
 
-import type { RootState } from '../../services/store';
 import type { TIngredient } from '@utils/types';
 
 import styles from './ingredients-card.module.css';
@@ -19,9 +18,7 @@ export const IngredientCard = ({
   ingredient,
   onIngredientClick,
 }: TIngredientCardProps): React.JSX.Element => {
-  const count = useSelector((state: RootState) =>
-    selectIngredientCount(state, ingredient)
-  );
+  const count = useAppSelector((state) => selectIngredientCount(state, ingredient));
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient,

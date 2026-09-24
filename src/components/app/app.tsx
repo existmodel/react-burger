@@ -1,31 +1,28 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { OrderDetails } from '@components/order-details/order-details';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
+import { clearConstructor } from '@services/slices/constructorSlice';
 import { ingredientCleared, closeOrderModal } from '@services/slices/ingredientsSlice';
 import { useGetIngredientsQuery } from '@utils/api';
 
 import { Modal } from './../modal/modal';
 
-import type { RootState } from '../../services/store';
-
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const dispatch = useDispatch();
-  const selectedIngredient = useSelector(
-    (state: RootState) => state.ingredients.selectedIngredient
+  const dispatch = useAppDispatch();
+  const selectedIngredient = useAppSelector(
+    (state) => state.ingredients.selectedIngredient
   );
 
-  const isOrderModalOpen = useSelector(
-    (state: RootState) => state.ingredients.isOrderModalOpen
-  );
+  const isOrderModalOpen = useAppSelector((state) => state.ingredients.isOrderModalOpen);
 
   const { data: response, isLoading, isError, error } = useGetIngredientsQuery();
 
@@ -35,9 +32,10 @@ export const App = (): React.JSX.Element => {
 
   const handleCloseOrderModal = (): void => {
     dispatch(closeOrderModal());
+    dispatch(clearConstructor());
   };
 
-  const orderNumber = useSelector((state: RootState) => state.ingredients.orderNumber);
+  const orderNumber = useAppSelector((state) => state.ingredients.orderNumber);
 
   if (isLoading) {
     return <Preloader />;
