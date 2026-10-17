@@ -9,12 +9,19 @@
 }
 
 .fillingList {
-  flex: 1;
-  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: min(912px, calc(100vh - 500px));
   margin: 0;
-  padding-left: 0;
+  padding: 0;
   overflow-y: auto;
   list-style: none;
+}
+
+.fillingListEmpty {
+  flex-grow: 0;
+  height: 80px;
 }
 
 .burgerConstructorBottom {
@@ -22,14 +29,33 @@
   justify-content: end;
 }
 
-.fillingsItem {
+.totalPrice {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.totalPrice {
+.stub {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
+  box-sizing: border-box;
+  min-height: 80px;
+  background-color: rgb(47 47 55);
+}
+
+.stubTop {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.stubMiddle {
+  border-radius: 40px;
+}
+
+.stubBottom {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.stubHover {
+  border: 1px dashed #801ab2;
 }
