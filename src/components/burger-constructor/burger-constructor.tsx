@@ -4,24 +4,29 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { BurgerConstructorItem } from '@components/burger-constructor-item/burger-constructor-item';
-import { useAppDispatch, useAppSelector } from '@services/hooks';
+import { usePostOrderMutation } from '@services/api/burgerApi';
+import { selectUser } from '@services/slices/authSlice';
 import {
   addIngredient,
   selectTotalPrice,
   clearConstructor,
 } from '@services/slices/constructorSlice';
 import { openOrderModal, setOrderNumber } from '@services/slices/ingredientsSlice';
-import { usePostOrderMutation } from '@utils/api';
+import { useAppDispatch, useAppSelector } from '@services/storeHooks';
 
-import type { TConstructorIngredient, TIngredient } from '../../utils/types';
+import type { TConstructorIngredient, TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const [postOrder] = usePostOrderMutation();
+  const navigate = useNavigate();
+  const user = useSelector(selectUser);
+  const [postOrder, { isLoading }] = usePostOrderMutation();
 
   const summary = useAppSelector(selectTotalPrice);
 
@@ -29,6 +34,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   const handleOrderClick = async (): Promise<void> => {
     if (!bun) return;
+
+    if (!user) {
+      void navigate('/login');
+      return;
+    }
 
     const { _id } = bun;
 
@@ -134,11 +144,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
           size="large"
           type="primary"
           htmlType="button"
+          disabled={isLoading || !bun}
           onClick={() => {
             void handleOrderClick();
           }}
         >
-          Оформить заказ
+          {isLoading ? 'Оформляем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </section>

@@ -5,10 +5,10 @@ import {
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { useAppDispatch } from '@services/hooks';
 import { removeIngredient, moveIngredient } from '@services/slices/constructorSlice';
+import { useAppDispatch } from '@services/storeHooks';
 
-import type { TConstructorIngredient } from '../../utils/types';
+import type { TConstructorIngredient } from '@utils/types';
 
 import styles from './burger-constructor-item.module.css';
 

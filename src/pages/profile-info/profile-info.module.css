@@ -1,0 +1,8 @@
+.form {
+  flex-direction: column;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

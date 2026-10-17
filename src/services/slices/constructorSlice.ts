@@ -1,13 +1,13 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-import type { RootState } from '../../services/store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@services/store';
 import type {
   TIngredient,
   TConstructorIngredient,
   TConstructorState,
-} from '../../utils/types';
-import type { PayloadAction } from '@reduxjs/toolkit';
+} from '@utils/types';
 
 const initialState: TConstructorState = {
   bun: null,
