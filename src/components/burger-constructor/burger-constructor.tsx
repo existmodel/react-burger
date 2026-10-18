@@ -56,8 +56,8 @@ export const BurgerConstructor = (): React.JSX.Element => {
     }
   };
 
-  const renderFillingsList = (list: TConstructorIngredient[]): React.JSX.Element[] => {
-    return list.map((item, index) => (
+  const renderFillingsList = (): React.JSX.Element[] => {
+    return fillings.map((item, index) => (
       <BurgerConstructorItem key={item.id} item={item} index={index} />
     ));
   };
@@ -106,7 +106,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
         }`}
       >
         {fillings.length > 0 ? (
-          renderFillingsList(fillings)
+          renderFillingsList()
         ) : (
           <li
             className={`ml-8 ${styles.stub} ${styles.stubMiddle} ${isFillingHover ? styles.stubHover : ''}`}
