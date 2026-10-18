@@ -4,11 +4,11 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
 import { removeIngredient, moveIngredient } from '@services/slices/constructorSlice';
+import { useAppDispatch } from '@services/storeHooks';
 
-import type { TConstructorIngredient } from '../../utils/types';
+import type { TConstructorIngredient } from '@utils/types';
 
 import styles from './burger-constructor-item.module.css';
 
@@ -21,7 +21,7 @@ export const BurgerConstructorItem = ({
   item,
   index,
 }: TIngredientItemProps): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
   const [{ isDragging }, dragRef] = useDrag(

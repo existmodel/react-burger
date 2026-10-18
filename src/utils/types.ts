@@ -19,3 +19,8 @@ export type TConstructorState = {
 };
 
 export type TConstructorIngredient = TIngredient & { id: string };
+
+export type TUser = {
+  email: string;
+  name: string;
+};

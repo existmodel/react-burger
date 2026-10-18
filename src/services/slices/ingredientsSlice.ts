@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { TIngredient } from '../../utils/types';
+import type { TIngredient } from '@utils/types';
 
 const initialState: TIngredientsState = {
   selectedIngredient: null,
@@ -19,14 +19,6 @@ export const ingredientsSlice = createSlice({
   initialState,
 
   reducers: {
-    ingredientSelected: (state, action: { payload: TIngredient | null }) => {
-      state.selectedIngredient = action.payload;
-    },
-
-    ingredientCleared: (state) => {
-      state.selectedIngredient = null;
-    },
-
     openOrderModal: (state) => {
       state.isOrderModalOpen = true;
     },
@@ -41,10 +33,5 @@ export const ingredientsSlice = createSlice({
   },
 });
 
-export const {
-  ingredientSelected,
-  ingredientCleared,
-  openOrderModal,
-  closeOrderModal,
-  setOrderNumber,
-} = ingredientsSlice.actions;
+export const { openOrderModal, closeOrderModal, setOrderNumber } =
+  ingredientsSlice.actions;

@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { BURGER_API_URL } from '@utils/constants';
+import { baseQueryWithReauth } from '@services/api/baseQueryWithReauth';
 
 import type { TIngredient } from '@utils/types';
 
@@ -19,9 +19,7 @@ type TOrderResponse = {
 export const burgerApi = createApi({
   reducerPath: 'burgerApi',
 
-  baseQuery: fetchBaseQuery({
-    baseUrl: BURGER_API_URL,
-  }),
+  baseQuery: baseQueryWithReauth,
 
   tagTypes: ['Ingredients', 'Order'],
 

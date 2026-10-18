@@ -1,13 +1,13 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-import type { RootState } from '../../services/store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@services/store';
 import type {
   TIngredient,
   TConstructorIngredient,
   TConstructorState,
-} from '../../utils/types';
-import type { PayloadAction } from '@reduxjs/toolkit';
+} from '@utils/types';
 
 const initialState: TConstructorState = {
   bun: null,
@@ -43,10 +43,15 @@ export const constructorSlice = createSlice({
       const draggedItem = state.fillings.splice(dragIndex, 1)[0];
       state.fillings.splice(hoverIndex, 0, draggedItem);
     },
+
+    clearConstructor: (state) => {
+      state.bun = null;
+      state.fillings = [];
+    },
   },
 });
 
-export const { addIngredient, removeIngredient, moveIngredient } =
+export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } =
   constructorSlice.actions;
 
 const selectConstructorState = (state: RootState, _?: TIngredient): TConstructorState =>

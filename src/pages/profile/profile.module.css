@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 60px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1240px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+}
+
+.menu {
+  margin-top: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  color: #8585ad;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item:hover {
+  color: #f2f2f3;
+}
+
+.itemActive {
+  color: #f2f2f3;
+}
+
+.caption {
+  opacity: 0.4;
+}
+
+.button {
+  width: 100%;
+  height: 64px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.button:active {
+  color: white;
+}
+
+.button:hover {
+  color: white;
+}

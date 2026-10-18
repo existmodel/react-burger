@@ -1,83 +1,104 @@
-import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
-import { OrderDetails } from '@components/order-details/order-details';
-import { ingredientCleared, closeOrderModal } from '@services/slices/ingredientsSlice';
-import { useGetIngredientsQuery } from '@utils/api';
+import { Modal } from '@components/modal/modal';
+import { Feed } from '@pages/feed/feed';
+import { ForgotPassword } from '@pages/forgot-password/forgot-password';
+import { Home } from '@pages/home/home';
+import { Ingredient } from '@pages/ingredient/ingredient';
+import { Login } from '@pages/login/login';
+import { NotFound } from '@pages/not-found/not-found';
+import { ProfileInfo } from '@pages/profile-info/profile-info';
+import { ProfileOrders } from '@pages/profile-orders/profile-orders';
+import { Profile } from '@pages/profile/profile';
+import { Register } from '@pages/register/register';
+import { ResetPassword } from '@pages/reset-password/reset-password';
+import { useGetUserQuery } from '@services/api/authApi';
+import { setIsAuthChecked } from '@services/slices/authSlice';
+import { useAppDispatch } from '@services/storeHooks';
 
-import { Modal } from './../modal/modal';
+import { ProtectedRoute } from '../protected-route';
 
-import type { RootState } from '../../services/store';
+import type { Location } from 'react-router-dom';
 
 import styles from './app.module.css';
 
+type TBackgroundState = {
+  backgroundLocation?: Location;
+};
+
 export const App = (): React.JSX.Element => {
-  const dispatch = useDispatch();
-  const selectedIngredient = useSelector(
-    (state: RootState) => state.ingredients.selectedIngredient
-  );
+  const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = (location.state as TBackgroundState | null)
+    ?.backgroundLocation;
+  const dispatch = useAppDispatch();
+  const hasToken = Boolean(localStorage.getItem('accessToken'));
 
-  const isOrderModalOpen = useSelector(
-    (state: RootState) => state.ingredients.isOrderModalOpen
-  );
-
-  const { data: response, isLoading, isError, error } = useGetIngredientsQuery();
-
-  const handleCloseIngredientModal = (): void => {
-    dispatch(ingredientCleared());
-  };
-
-  const handleCloseOrderModal = (): void => {
-    dispatch(closeOrderModal());
-  };
-
-  const orderNumber = useSelector((state: RootState) => state.ingredients.orderNumber);
-
-  if (isLoading) {
-    return <Preloader />;
-  }
-
-  if (isError || !response) {
-    console.error('Ошибка при загрузке ингредиентов:', error);
-    return (
-      <p className="text text_type_main-default pt-10 pl-10">
-        Произошла ошибка при загрузке данных.
-      </p>
-    );
-  }
-
-  const ingredients = response.data;
+  const { isLoading } = useGetUserQuery(undefined, { skip: !hasToken });
+  useEffect(() => {
+    if (!isLoading) dispatch(setIsAuthChecked(true));
+  }, [isLoading, dispatch]);
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className={styles.app}>
-        <AppHeader />
-        <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-          Соберите бургер
-        </h1>
-        <main className={`${styles.main} pl-5 pr-5`}>
-          <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor />
-        </main>
-        {selectedIngredient && (
-          <Modal onClose={handleCloseIngredientModal} title="Детали ингредиента">
-            <IngredientDetails ingredient={selectedIngredient} />
-          </Modal>
-        )}
+    <div className={styles.app}>
+      <AppHeader />
+      <Routes location={backgroundLocation ?? location}>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/login"
+          element={<ProtectedRoute onlyUnAuth component={<Login />} />}
+        />
+        <Route
+          path="/register"
+          element={<ProtectedRoute onlyUnAuth component={<Register />} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={<ProtectedRoute onlyUnAuth component={<ForgotPassword />} />}
+        />
+        <Route
+          path="/reset-password"
+          element={<ProtectedRoute onlyUnAuth component={<ResetPassword />} />}
+        />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/profile" element={<ProtectedRoute component={<Profile />} />}>
+          <Route index element={<ProfileInfo />} />
+          <Route path="orders" element={<ProfileOrders />} />
+        </Route>
 
-        {isOrderModalOpen && orderNumber && (
-          <Modal onClose={handleCloseOrderModal}>
-            <OrderDetails orderId={String(orderNumber)} />
-          </Modal>
-        )}
-      </div>
-    </DndProvider>
+        <Route
+          path="ingredients/:id"
+          element={
+            <div className={styles.ingredient}>
+              <h2 className="text text_type_main-large mt-10">Детали ингредиента</h2>
+
+              <Ingredient />
+            </div>
+          }
+        />
+      </Routes>
+
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal
+                onClose={() => {
+                  void navigate(-1);
+                }}
+                title="Детали ингредиента"
+              >
+                <Ingredient />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+    </div>
   );
 };
 

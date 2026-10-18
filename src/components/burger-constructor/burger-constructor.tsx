@@ -4,28 +4,41 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { BurgerConstructorItem } from '@components/burger-constructor-item/burger-constructor-item';
-import { addIngredient, selectTotalPrice } from '@services/slices/constructorSlice';
+import { usePostOrderMutation } from '@services/api/burgerApi';
+import { selectUser } from '@services/slices/authSlice';
+import {
+  addIngredient,
+  selectTotalPrice,
+  clearConstructor,
+} from '@services/slices/constructorSlice';
 import { openOrderModal, setOrderNumber } from '@services/slices/ingredientsSlice';
-import { usePostOrderMutation } from '@utils/api';
+import { useAppDispatch, useAppSelector } from '@services/storeHooks';
 
-import type { RootState } from '../../services/store';
-import type { TConstructorIngredient, TIngredient } from '../../utils/types';
+import type { TConstructorIngredient, TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
-  const dispatch = useDispatch();
-  const [postOrder] = usePostOrderMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(selectUser);
+  const [postOrder, { isLoading }] = usePostOrderMutation();
 
-  const summary = useSelector(selectTotalPrice);
+  const summary = useAppSelector(selectTotalPrice);
 
-  const { bun, fillings } = useSelector((state: RootState) => state.burgerConstructor);
+  const { bun, fillings } = useAppSelector((state) => state.burgerConstructor);
 
   const handleOrderClick = async (): Promise<void> => {
     if (!bun) return;
+
+    if (!user) {
+      void navigate('/login');
+      return;
+    }
 
     const { _id } = bun;
 
@@ -37,6 +50,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
       dispatch(setOrderNumber(response.order.number));
       dispatch(openOrderModal());
+      dispatch(clearConstructor());
     } catch (error) {
       console.log('Ошибка при создании заказа', error);
     }
@@ -130,11 +144,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
           size="large"
           type="primary"
           htmlType="button"
+          disabled={isLoading || !bun}
           onClick={() => {
             void handleOrderClick();
           }}
         >
-          Оформить заказ
+          {isLoading ? 'Оформляем заказ...' : 'Оформить заказ'}
         </Button>
       </div>
     </section>
