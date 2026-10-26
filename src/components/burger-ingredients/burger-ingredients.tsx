@@ -8,11 +8,6 @@ import { IngredientCard } from './../ingredients-card/ingredients-card';
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
-
-// type TBurgerIngredientsProps = {
-//   ingredients: TIngredient[];
-// };
-
 export const BurgerIngredients = (): React.JSX.Element => {
   const [activeTab, setActiveTab] = useState('bun');
   const { data: response, isLoading, isError, error } = useGetIngredientsQuery();
