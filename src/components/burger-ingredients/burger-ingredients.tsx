@@ -1,25 +1,16 @@
-import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { Tab, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
+
+import { useGetIngredientsQuery } from '@services/api/burgerApi';
 
 import { IngredientCard } from './../ingredients-card/ingredients-card';
 
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
-
-type TBurgerIngredientsProps = {
-  ingredients: TIngredient[];
-};
-
-export const BurgerIngredients = ({
-  ingredients,
-}: TBurgerIngredientsProps): React.JSX.Element => {
+export const BurgerIngredients = (): React.JSX.Element => {
   const [activeTab, setActiveTab] = useState('bun');
-
-  const buns = ingredients.filter((item) => item.type === 'bun');
-  const sauces = ingredients.filter((item) => item.type === 'sauce');
-  const mains = ingredients.filter((item) => item.type === 'main');
-
+  const { data: response, isLoading, isError, error } = useGetIngredientsQuery();
   const ingredientsRef = useRef<HTMLDivElement>(null);
 
   const handleTabClick = (value: string): void => {
@@ -57,6 +48,24 @@ export const BurgerIngredients = ({
   const renderCategoryList = (list: TIngredient[]): React.JSX.Element[] => {
     return list.map((item) => <IngredientCard key={item._id} ingredient={item} />);
   };
+  if (isError) {
+    console.error('Ошибка при загрузке ингредиентов:', error);
+    return (
+      <p className="text text_type_main-default pt-10 pl-10">
+        Произошла ошибка при загрузке данных.
+      </p>
+    );
+  }
+
+  if (isLoading || !response) {
+    return <Preloader />;
+  }
+
+  const ingredients = response.data;
+
+  const buns = ingredients.filter((item) => item.type === 'bun');
+  const sauces = ingredients.filter((item) => item.type === 'sauce');
+  const mains = ingredients.filter((item) => item.type === 'main');
 
   return (
     <section className={styles.burger_ingredients}>

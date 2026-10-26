@@ -34,9 +34,7 @@ export const IngredientCard = ({
         dragRef(node);
       }}
     >
-      {count > 0 && (
-        <Counter count={count} size="default" extraClass={styles.counter as string} />
-      )}
+      {count > 0 && <Counter count={count} size="default" extraClass={styles.counter} />}
 
       <Link
         to={`/ingredients/${ingredient._id}`}
@@ -45,13 +43,11 @@ export const IngredientCard = ({
         className={`${styles.link} text_color_primary`}
       >
         <img className="mb-1" src={ingredient.image} alt={ingredient.name} />
-        <span
-          className={`${styles.price as string} mb-1 text text_type_digits-default `}
-        >
+        <span className={`${styles.price} mb-1 text text_type_digits-default `}>
           {ingredient.price}
           <CurrencyIcon type="primary" />
         </span>
-        <p className={` ${styles.name as string} text text_type_main-default mb-1 `}>
+        <p className={` ${styles.name} text text_type_main-default mb-1 `}>
           {ingredient.name}
         </p>
       </Link>

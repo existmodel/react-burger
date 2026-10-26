@@ -14,15 +14,9 @@ import { selectUser } from '@services/slices/authSlice';
 import styles from './profile-info.module.css';
 
 export const ProfileInfo = (): React.JSX.Element | null => {
-  // const dispatch = useAppDispatch();
-  //   const [user] = useGetUserQuery();
   const user = useSelector(selectUser);
   const nameRef = useRef<HTMLInputElement>(null);
   const [isNameDisabled, setIsNameDisabled] = useState(true);
-  //Хук нужен, но не ради проверки, а ради хранения значений. Он отдаёт тебе две вещи, без которых формы не будет:
-  // values хранит то, что сейчас набрано в полях (values.name, values.email, values.password).
-  // handleChange обновляет values, когда пользователь печатает. По name поля он понимает, какое значение менять.
-  //Зато initialValues это то, что ты передаёшь в хук при вызове, то есть имя и почта из user, а пароль пустой. Внутри хука эта переменная доступна, поэтому сброс сводится к «положи туда initialValues обратно».
   const { values, handleChange, resetForm } = useFormWithValidation({
     email: user ? user.email : '',
     password: '',
@@ -35,10 +29,7 @@ export const ProfileInfo = (): React.JSX.Element | null => {
   const isNameChanged = values.name !== user.name;
   const isEmailChanged = values.email !== user.email;
   const isPasswordFilled = values.password !== '';
-  //|| значит «или». isChanged будет true, если изменилось имя, или почта, или напечатан пароль.
   const isChanged = isNameChanged || isEmailChanged || isPasswordFilled;
-
-  //кастом для инпута
   const handleNameIconClick = (): void => {
     setIsNameDisabled(false);
     setTimeout(() => nameRef.current?.focus(), 0);
@@ -64,7 +55,6 @@ export const ProfileInfo = (): React.JSX.Element | null => {
         extraClass="mb-6"
         disabled={isNameDisabled}
         id="name"
-        // icon="ShowIcon"
         name="name"
         onChange={handleChange}
         placeholder="Имя"
@@ -121,5 +111,3 @@ export const ProfileInfo = (): React.JSX.Element | null => {
     </form>
   );
 };
-
-//ДОБАВИТЬ КНОПКИ СОХРАНИТЬ И тд
