@@ -1,0 +1,17 @@
+.container {
+  width: 608px;
+  color: var(--text-primary-color);
+  font-family: 'Jet Brains Mono', serif;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  max-height: calc(100vh - 280px);
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}

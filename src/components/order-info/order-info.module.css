@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 340px;
+  margin: 0;
+  padding: 0;
+  padding-right: 24px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  color: #0cc;
+}
+
+.order {
+  align-self: center;
+}

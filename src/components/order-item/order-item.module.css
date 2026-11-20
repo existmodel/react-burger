@@ -1,0 +1,38 @@
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+  object-fit: cover;
+  background-color: rgb(47 47 55);
+  border-radius: 50%;
+}
+
+.border {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  background: linear-gradient(#801ab2, #4c4cff);
+  border-radius: 50%;
+}
+
+.name {
+  flex: 1;
+  align-self: center;
+}
+
+.value {
+  align-self: center;
+}

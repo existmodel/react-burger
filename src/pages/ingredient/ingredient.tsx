@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { useGetIngredientsQuery } from '@services/api/burgerApi';
 
+import styles from './ingredient.module.css';
+
 export const Ingredient = (): React.JSX.Element => {
   const { id } = useParams();
 
@@ -14,9 +16,11 @@ export const Ingredient = (): React.JSX.Element => {
   if (isError || !response) {
     console.error('Ошибка при загрузке ингредиентов:', error);
     return (
-      <p className="text text_type_main-default pt-10 pl-10">
-        Произошла ошибка при загрузке данных.
-      </p>
+      <div className={styles.container}>
+        <p className="text text_type_main-default pt-10 pl-10">
+          Произошла ошибка при загрузке данных.
+        </p>
+      </div>
     );
   }
   const ingredients = response.data;

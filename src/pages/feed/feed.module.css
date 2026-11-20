@@ -1,19 +1,21 @@
-.feed {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 20;
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  width: 720px;
-  max-width: 100vw;
-  height: auto;
-  max-height: 90vh;
+  width: 100%;
+}
 
-  /* background-color: #1c1c21; */
-  border-radius: 40px;
-  cursor: default;
-  transform: translate(-50%, -50%);
+.title {
+  width: 100%;
+  max-width: 1260px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
 }
