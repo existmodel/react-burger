@@ -1,3 +1,4 @@
+import { Order } from '@/pages/order/order';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
@@ -64,17 +65,20 @@ export const App = (): React.JSX.Element => {
         />
         <Route path="*" element={<NotFound />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<Order />} />
         <Route path="/profile" element={<ProtectedRoute component={<Profile />} />}>
           <Route index element={<ProfileInfo />} />
           <Route path="orders" element={<ProfileOrders />} />
         </Route>
-
+        <Route
+          path="/profile/orders/:id"
+          element={<ProtectedRoute component={<Order />} />}
+        ></Route>
         <Route
           path="ingredients/:id"
           element={
             <div className={styles.ingredient}>
               <h2 className="text text_type_main-large mt-10">Детали ингредиента</h2>
-
               <Ingredient />
             </div>
           }
@@ -94,6 +98,36 @@ export const App = (): React.JSX.Element => {
               >
                 <Ingredient />
               </Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal
+                onClose={() => {
+                  void navigate(-1);
+                }}
+              >
+                <Order />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedRoute
+                component={
+                  <Modal
+                    onClose={() => {
+                      void navigate(-1);
+                    }}
+                  >
+                    <Order />
+                  </Modal>
+                }
+              />
             }
           />
         </Routes>

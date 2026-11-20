@@ -37,11 +37,7 @@ export const Modal = ({ title, onClose, children }: TModalProps): React.JSX.Elem
       <div className={`${styles.modal} pl-10 pr-10 `}>
         <header className={styles.modalHeader}>
           {title && <h2 className="text text_type_main-large mt-10">{title}</h2>}
-          <button
-            type="button"
-            onClick={onClose}
-            className={`${styles.closeButton} mt-15`}
-          >
+          <button type="button" onClick={onClose} className={`${styles.closeButton}`}>
             <CloseIcon type="primary" />
           </button>
         </header>

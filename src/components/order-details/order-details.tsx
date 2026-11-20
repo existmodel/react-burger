@@ -8,7 +8,7 @@ type OrderDetailsProps = {
 
 export const OrderDetails = ({ orderId }: OrderDetailsProps): React.JSX.Element => {
   return (
-    <div className={`${styles.container} mt-10 `}>
+    <div className={`${styles.container} mt-30 `}>
       <p className="text text_type_digits-large mb-8">{orderId}</p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
 
